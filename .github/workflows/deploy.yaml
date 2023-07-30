@@ -36,8 +36,10 @@ jobs:
       - name: check
         run: pwd & ls
       - name: init accout
-        run: |
-          git config --global user.email "$MY_EMAIL"
-          git config --global user.name "$MY_EMAIL"
+        env:
+          MY_EMAIL: ${{ secrets.MY_EMAIL}}
+          MY_NAME: ${{ secrets.MY_NAME}}
+        run: git config --global user.email "env.MY_EMAIL" &
+          git config --global user.name "env.MY_NAME"
       - name: start server
         run: yarn deploy
