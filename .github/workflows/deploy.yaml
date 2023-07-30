@@ -35,5 +35,9 @@ jobs:
         run: yarn build
       - name: check
         run: pwd & ls
+      - name: init accout
+        run: |
+          git config --global user.email "$MY_EMAIL"
+          git config --global user.name "$MY_EMAIL"
       - name: start server
         run: yarn deploy
