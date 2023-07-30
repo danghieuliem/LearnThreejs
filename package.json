@@ -6,7 +6,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"start": "parcel ./src/index.html",
 		"build": "parcel build ./src/index.html",
-		"predeploy": "yarn build",
+		"predeploy": "yarn build --build-dir",
 		"deploy": "gh-pages -d build"
 	},
 	"keywords": [],
