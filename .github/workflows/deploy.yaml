@@ -35,11 +35,10 @@ jobs:
         run: yarn build
       - name: check
         run: pwd & ls
-      - name: init accout
+      - name: start server
         env:
           MY_EMAIL: ${{ secrets.MY_EMAIL}}
           MY_NAME: ${{ secrets.MY_NAME}}
         run: git config --global user.email "env.MY_EMAIL" &
-          git config --global user.name "env.MY_NAME"
-      - name: start server
-        run: yarn deploy
+          git config --global user.name "env.MY_NAME" &
+          yarn deploy
