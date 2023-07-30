@@ -1,0 +1,22 @@
+name: deploy
+on:
+  push:
+    paths:
+      - "README.md"
+      - "!docs/**"
+      - "**.js"
+    branches:
+      - "main"
+  pull_request:
+    types: [opened, reopened, synchronize, labeled, unlabeled]
+
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - run: yarn
+      - run: yarn start
