@@ -14,13 +14,15 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./LearnThreejs
+    # defaults:
+    #   run:
+    #     working-directory: ./LearnThreejs
     permissions:
       issues: write
       pull-requests: write
     steps:
+      - name: list
+        run: ls
       - name: install package
         run: yarn
       - name: start server
