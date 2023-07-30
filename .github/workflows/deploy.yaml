@@ -41,7 +41,7 @@ jobs:
           MY_NAME: ${{ secrets.MY_NAME}}
           MY_GH_NAME: ${{ secrets.MY_GH_NAME}}
           MY_GH_PASS: ${{ secrets.MY_GH_PASS}}
-        run: git config --global user.email "env.MY_EMAIL" &
-          git config --global user.name "env.MY_NAME" &
+        run: git config --global user.email "$MY_EMAIL"
+          git config --global user.name "$MY_NAME"
           git remote set-url origin "https://${{ secrets.MY_GH_NAME}}:${{ secrets.MY_GH_PASS}}@github.com/${{ secrets.MY_GH_NAME}}/LearnThreejs.git"
           yarn deploy
