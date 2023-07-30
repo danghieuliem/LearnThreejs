@@ -12,7 +12,7 @@ on:
 
   workflow_dispatch:
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     # defaults:
     #   run:
@@ -33,13 +33,40 @@ jobs:
         run: yarn
       - name: check
         run: pwd & ls
-      - name: start server
-        env:
-          MY_EMAIL: ${{ secrets.MY_EMAIL}}
-          MY_NAME: ${{ secrets.MY_NAME}}
-          # MY_GH_NAME: ${{ secrets.MY_GH_NAME}}
-          # MY_GH_PASS: ${{ secrets.MY_GH_PASS}}
-        run: git config --global user.email "env.MY_EMAIL" &
-          git config --global user.name "env.MY_NAME" &
-          git remote set-url origin "https://${{ secrets.MY_GH_NAME}}:${{ secrets.MY_GH_PASS}}@github.com/${{ secrets.MY_GH_NAME}}/LearnThreejs.git" &
-          yarn deploy
+      - name: build
+        run: yarn build
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./out
+      # - name: start server
+      #   env:
+      #     MY_EMAIL: ${{ secrets.MY_EMAIL}}
+      #     MY_NAME: ${{ secrets.MY_NAME}}
+      #     # MY_GH_NAME: ${{ secrets.MY_GH_NAME}}
+      #     # MY_GH_PASS: ${{ secrets.MY_GH_PASS}}
+      #   run: git config --global user.email "env.MY_EMAIL" &
+      #     git config --global user.name "env.MY_NAME" &
+      #     git remote set-url origin "https://${{ secrets.MY_GH_NAME}}:${{ secrets.MY_GH_PASS}}@github.com/${{ secrets.MY_GH_NAME}}/LearnThreejs.git" &
+      #     yarn deploy
+    # Deploy job
+  deploy:
+    # Add a dependency to the build job
+    needs: build
+
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write # to deploy to Pages
+      id-token: write # to verify the deployment originates from an appropriate source
+
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # Specify runner + deployment step
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
